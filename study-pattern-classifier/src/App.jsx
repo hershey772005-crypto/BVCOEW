@@ -64,8 +64,8 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Study Pattern Classifier</h1>
-        <p>ML-powered classification using K-Means clustering + Decision Tree</p>
+        <h1>PatternIQ</h1>
+        <p>Personalized study pattern classifier</p>
       </header>
 
       <main className="app-main">

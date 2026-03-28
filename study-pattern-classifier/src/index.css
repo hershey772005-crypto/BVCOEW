@@ -45,23 +45,23 @@ body {
 
 /* Header */
 .app-header {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 1.25rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: linear-gradient(135deg, #4E8D9C 0%, #5da89a 50%, #6dbf9e 100%);
+  padding: 1.5rem 2rem;
 }
 
 .app-header h1 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.025em;
+  font-style: italic;
+  margin-bottom: 0.25rem;
 }
 
 .app-header p {
-  display: none;
+  font-size: 0.95rem;
+  color: #ffffff;
+  opacity: 0.95;
 }
 
 .model-badge {
