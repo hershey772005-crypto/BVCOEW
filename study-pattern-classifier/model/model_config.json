@@ -1,0 +1,47 @@
+{
+  "features": [
+    "pi",
+    "std",
+    "cv",
+    "trend"
+  ],
+  "thresholds": {
+    "consistent": {
+      "cv_max": 0.39350061764362915,
+      "std_max": 20.553329700104488
+    },
+    "last_minute": {
+      "pi_min": 0.49,
+      "trend_min": 6.1999999999999975
+    }
+  },
+  "pattern_stats": {
+    "Consistent": {
+      "count": 104,
+      "pi_mean": 0.39231309584269974,
+      "pi_std": 0.07375063337590058,
+      "std_mean": 16.728944165786036,
+      "cv_mean": 0.3270079216920628,
+      "trend_mean": -0.6673076923076972
+    },
+    "Irregular": {
+      "count": 99,
+      "pi_mean": 0.296859138107188,
+      "pi_std": 0.08761602350266948,
+      "std_mean": 28.324636182417226,
+      "cv_mean": 0.5915161871962707,
+      "trend_mean": -7.290909090909097
+    },
+    "Last-minute": {
+      "count": 97,
+      "pi_mean": 0.5497747620188002,
+      "pi_std": 0.09686707787232796,
+      "std_mean": 28.75441129440569,
+      "cv_mean": 0.6310324655581016,
+      "trend_mean": 9.872164948453607
+    }
+  },
+  "training_samples": 300,
+  "model_type": "DecisionTree",
+  "accuracy": 0.8633333333333333
+}
