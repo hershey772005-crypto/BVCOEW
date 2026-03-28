@@ -1,14 +1,14 @@
 const patternColors = {
-  'Consistent': '#22c55e',
-  'Irregular': '#eab308',
-  'Last-minute': '#ef4444'
+  'Consistent': '#5C6F2B',
+  'Irregular': '#FFC300',
+  'Last-minute': '#9B0F06'
 };
 
 export default function ExplanationCard({ student }) {
   if (!student) {
     return (
       <div className="explanation-placeholder">
-        <p>🔍 Click on a student row to see detailed analysis</p>
+        <p>Click on a student row to see detailed analysis</p>
       </div>
     );
   }
@@ -22,49 +22,49 @@ export default function ExplanationCard({ student }) {
         style={{ backgroundColor: patternColors[pattern] }}
       >
         <h3>{pattern}</h3>
-        {confidence && <span className="confidence">Confidence: {confidence}</span>}
+        {confidence && <span className="confidence">{confidence} confidence</span>}
       </div>
       
       <div className="features-grid">
         <div className="feature-item">
-          <span className="feature-label">Procrastination Index</span>
+          <span className="feature-label">PI</span>
           <span className="feature-value">{features.PI}</span>
-          <span className="feature-desc">(Day4 + Day5) / Total</span>
+          <span className="feature-desc">Procrastination</span>
         </div>
         
         <div className="feature-item">
-          <span className="feature-label">Coeff. of Variation</span>
+          <span className="feature-label">CV</span>
           <span className="feature-value">{features.cv}</span>
-          <span className="feature-desc">Normalized variability</span>
+          <span className="feature-desc">Variability</span>
         </div>
         
         <div className="feature-item">
-          <span className="feature-label">Standard Deviation</span>
+          <span className="feature-label">Std</span>
           <span className="feature-value">{features.std}</span>
-          <span className="feature-desc">Spread of study time</span>
+          <span className="feature-desc">Deviation</span>
         </div>
         
         <div className="feature-item">
           <span className="feature-label">Trend</span>
           <span className="feature-value">{features.trend}</span>
-          <span className="feature-desc">Linear slope over days</span>
+          <span className="feature-desc">Slope</span>
         </div>
         
         <div className="feature-item">
-          <span className="feature-label">Early Index</span>
+          <span className="feature-label">EI</span>
           <span className="feature-value">{features.EI}</span>
-          <span className="feature-desc">(Day1 + Day2) / Total</span>
+          <span className="feature-desc">Early Index</span>
         </div>
         
         <div className="feature-item">
-          <span className="feature-label">Total Minutes</span>
+          <span className="feature-label">Total</span>
           <span className="feature-value">{features.total}</span>
-          <span className="feature-desc">Sum of all days</span>
+          <span className="feature-desc">Minutes</span>
         </div>
       </div>
 
       <div className="reasoning-box">
-        <h4>📝 Classification Reasoning</h4>
+        <h4>Classification Reasoning</h4>
         <p>{reasoning}</p>
       </div>
     </div>

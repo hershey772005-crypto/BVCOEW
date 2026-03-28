@@ -1,7 +1,7 @@
 const patternColors = {
-  'Consistent': '#22c55e',
-  'Irregular': '#eab308',
-  'Last-minute': '#ef4444'
+  'Consistent': '#5C6F2B',
+  'Irregular': '#FFC300',
+  'Last-minute': '#9B0F06'
 };
 
 export default function DataTable({ students, selectedId, onSelect }) {
@@ -9,17 +9,18 @@ export default function DataTable({ students, selectedId, onSelect }) {
     return <p className="no-data">No data loaded yet. Upload a CSV file to begin.</p>;
   }
 
+  // Get number of days from first student
+  const numDays = students[0]?.days?.length || 0;
+
   return (
     <div className="table-container">
       <table className="data-table">
         <thead>
           <tr>
             <th>Student ID</th>
-            <th>Day 1</th>
-            <th>Day 2</th>
-            <th>Day 3</th>
-            <th>Day 4</th>
-            <th>Day 5</th>
+            {Array.from({ length: numDays }, (_, i) => (
+              <th key={i}>Day {i + 1}</th>
+            ))}
             <th>Pattern</th>
           </tr>
         </thead>

@@ -28,18 +28,24 @@ def extract_features(df):
     """
     Extract temporal distribution features from study data.
     These features capture HOW study time is distributed, not just totals.
+    Works with any number of days (dynamic).
     """
     features = []
     
     for idx, row in df.iterrows():
-        days = row.values[:5].astype(float)
+        days = row.values.astype(float)
+        n = len(days)
         total = np.sum(days)
         
-        # Procrastination Index: proportion of study in last 2 days
-        pi = (days[3] + days[4]) / total if total > 0 else 0
+        # Calculate how many days to use for "last" and "first" portions
+        # Use ~40% of days for each end (min 1 day)
+        end_days = max(1, int(n * 0.4))
         
-        # Early Bird Index: proportion in first 2 days
-        ei = (days[0] + days[1]) / total if total > 0 else 0
+        # Procrastination Index: proportion of study in last portion
+        pi = np.sum(days[-end_days:]) / total if total > 0 else 0
+        
+        # Early Bird Index: proportion in first portion
+        ei = np.sum(days[:end_days]) / total if total > 0 else 0
         
         # Standard Deviation: measures consistency
         std = np.std(days)
@@ -48,13 +54,13 @@ def extract_features(df):
         cv = std / np.mean(days) if np.mean(days) > 0 else 0
         
         # Slope: trend from first to last day
-        slope = days[4] - days[0]
+        slope = days[-1] - days[0]
         
-        # Peak day (0-4)
+        # Peak day (0 to n-1)
         peak_day = np.argmax(days)
         
         # Trend: linear regression slope
-        x = np.arange(5)
+        x = np.arange(n)
         trend = np.polyfit(x, days, 1)[0] if total > 0 else 0
         
         features.append({
@@ -62,7 +68,7 @@ def extract_features(df):
             'ei': ei,           # Early Index
             'std': std,         # Standard Deviation
             'cv': cv,           # Coefficient of Variation
-            'slope': slope,     # Day5 - Day1
+            'slope': slope,     # Last - First day
             'peak_day': peak_day,
             'trend': trend,     # Linear trend
             'total': total
@@ -74,6 +80,7 @@ def discover_patterns(features_df):
     """
     Use K-Means clustering to discover natural study patterns.
     We use 3 clusters to match: Consistent, Irregular, Last-minute
+    Pattern names are assigned based on relative cluster characteristics (no hardcoded thresholds).
     """
     # Select features for clustering (exclude total - we focus on distribution)
     cluster_features = ['pi', 'cv', 'trend', 'std']
@@ -101,30 +108,23 @@ def discover_patterns(features_df):
     print("\n=== Cluster Analysis ===")
     print(cluster_stats)
     
-    # Assign pattern names based on cluster characteristics
+    # Assign pattern names based on RELATIVE cluster characteristics
+    # No hardcoded thresholds - purely data-driven
     pattern_map = {}
-    for cluster_id in range(3):
-        stats = cluster_stats.loc[cluster_id]
-        
-        if stats['cv'] < 0.5 and stats['std'] < 25:
-            pattern_map[cluster_id] = 'Consistent'
-        elif stats['pi'] > 0.45 and stats['trend'] > 5:
-            pattern_map[cluster_id] = 'Last-minute'
-        else:
-            pattern_map[cluster_id] = 'Irregular'
     
-    # Handle edge case: ensure all 3 patterns are assigned
-    assigned = set(pattern_map.values())
-    if len(assigned) < 3:
-        # Force assignment based on ranking
-        cv_rank = cluster_stats['cv'].argsort()
-        pi_rank = cluster_stats['pi'].argsort()
-        
-        pattern_map[cv_rank.values[0]] = 'Consistent'  # Lowest CV
-        pattern_map[pi_rank.values[2]] = 'Last-minute'  # Highest PI
-        for c in range(3):
-            if c not in [cv_rank.values[0], pi_rank.values[2]]:
-                pattern_map[c] = 'Irregular'
+    # Find cluster with lowest CV -> Consistent (most uniform distribution)
+    consistent_cluster = cluster_stats['cv'].idxmin()
+    pattern_map[consistent_cluster] = 'Consistent'
+    
+    # Find cluster with highest PI among remaining -> Last-minute (most end-heavy)
+    remaining = [c for c in range(3) if c != consistent_cluster]
+    last_minute_cluster = cluster_stats.loc[remaining, 'pi'].idxmax()
+    pattern_map[last_minute_cluster] = 'Last-minute'
+    
+    # Remaining cluster -> Irregular
+    for c in range(3):
+        if c not in pattern_map:
+            pattern_map[c] = 'Irregular'
     
     features_df['pattern'] = features_df['cluster'].map(pattern_map)
     

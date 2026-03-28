@@ -1,7 +1,7 @@
 const patternColors = {
-  'Consistent': '#22c55e',
-  'Irregular': '#eab308',
-  'Last-minute': '#ef4444'
+  'Consistent': '#5C6F2B',
+  'Irregular': '#FFC300',
+  'Last-minute': '#9B0F06'
 };
 
 export default function Summary({ students }) {
@@ -14,7 +14,7 @@ export default function Summary({ students }) {
 
   return (
     <div className="summary-container">
-      <h3>📊 Summary</h3>
+      <h3>Summary</h3>
       <div className="summary-cards">
         {['Consistent', 'Irregular', 'Last-minute'].map(pattern => (
           <div 

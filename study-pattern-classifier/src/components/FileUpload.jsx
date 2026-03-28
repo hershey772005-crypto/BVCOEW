@@ -21,7 +21,7 @@ export default function FileUpload({ onDataLoaded }) {
   return (
     <div className="file-upload">
       <label className="upload-btn">
-        📁 Upload CSV File
+        Upload CSV File
         <input 
           type="file" 
           accept=".csv" 
