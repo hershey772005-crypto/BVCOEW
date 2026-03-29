@@ -1,7 +1,7 @@
 const patternColors = {
-  'Consistent': '#465e2a',
-  'Irregular': '#a8a030',
-  'Last-minute': '#ac2f2b'
+  'Consistent': '#043f49',
+  'Irregular': '#4e8c97',
+  'Last-minute': '#6e6e6e'
 };
 
 export default function DataTable({ students, selectedId, onSelect }) {
