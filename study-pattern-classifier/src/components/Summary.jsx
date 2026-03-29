@@ -1,7 +1,7 @@
 const patternColors = {
-  'Consistent': '#5C6F2B',
-  'Irregular': '#FFC300',
-  'Last-minute': '#9B0F06'
+  'Consistent': '#2d6a7a',
+  'Irregular': '#5a9cad',
+  'Last-minute': '#8fbfd0'
 };
 
 export default function Summary({ students }) {
